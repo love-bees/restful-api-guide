@@ -21,51 +21,73 @@ paths:
         - lang: bash
           label: cURL
           source: |
-            curl -X GET "https://api.ccbill.com/payment-tokens/threeds-required?bin=411111&last4=1111&clientAccnum=900000&clientSubacc=2&currencyCode=840" \
-            -H "accept: application/vnd.mcn.transaction-service.api.v.2+json"\
-            -H "authorization: Bearer [access_token]" \
+            curl -X GET "https://api.ccbill.com/payment-tokens/threeds-required?bin=530664&last4=8087&clientAccnum=900684&clientSubacc=3&currencyCode=840" \
+              -H "accept: application/vnd.mcn.transaction-service.api.v.2+json" \
+              -H "authorization: Bearer [access_token]" \
+              -H "cache-control: no-cache"
         - lang: javascript
           label: JavaScript
           source: |
             var data = null;
             var xhr = new XMLHttpRequest();
-            xhr.withCredentials = true;
+
+            // Open the connection to the API
+            xhr.open("GET", "https://api.ccbill.com/payment-tokens/threeds-required?bin=530664&last4=8087&clientAccnum=900684&clientSubacc=3&currencyCode=840");
+
+            // Add event listener for when the request state changes
             xhr.addEventListener("readystatechange", function () {
-              if (this.readyState === 4) {
-                console.log(this.responseText);
+              if (this.readyState === 4) {  // Request has completed
+                if (this.status === 200) {
+                  console.log(this.responseText);  // Log response text if request was successful
+                } else {
+                  console.log("Error: " + this.status);  // Log error if request failed
+                }
               }
             });
-            xhr.open("GET", "https://api.ccbill.com/payment-tokens/threeds-required?bin=411111&last4=1111&clientAccnum=900000&clientSubacc=2&currencyCode=840");
-            xhr.setRequestHeader("Authorization", "Bearer [access_token]");
+
+            // Set request headers
+            xhr.setRequestHeader("Authorization", "Bearer [access_token]");  // Replace [access_token] with your actual token
             xhr.setRequestHeader("Accept", "application/vnd.mcn.transaction-service.api.v.2+json");
             xhr.setRequestHeader("Cache-Control", "no-cache");
+
+            // Send the request
             xhr.send(data);
+
+
         - lang: php
           label: PHP
           source: |
             <?php
+
             $request = new HttpRequest();
-            $request--->setUrl('https://api.ccbill.com/payment-tokens/threeds-required');
+
+            $request->setUrl('https://api.ccbill.com/payment-tokens/threeds-required');
+
             $request->setMethod(HTTP_METH_GET);
+
             $request->setQueryData(array(
-              'bin' => '411111',
-              'last4' => '1111',
-              'clientAccnum' => '900684',
-              'clientSubacc' => '2',
-              'currencyCode' => '840'
+                'bin' => '530664',
+                'last4' => '8087',
+                'clientAccnum' => '900684',
+                'clientSubacc' => '3',
+                'currencyCode' => '840'
             ));
+
             $request->setHeaders(array(
-              'cache-control' => 'no-cache',
-              'Accept' => 'application/vnd.mcn.transaction-service.api.v.2+json',
-              'Authorization' => 'Bearer [access_token]'
+                'cache-control' => 'no-cache',
+                'Accept' => 'application/vnd.mcn.transaction-service.api.v.2+json',
+                'Authorization' => 'Bearer [access_token]'
             ));
+
             try {
-              $response = $request->send();
-              echo $response->getBody();
+                $response = $request->send();
+                echo $response->getBody();
             } catch (HttpException $ex) {
-              echo $ex;
+                echo $ex;
             }
+
             ?>
+
       parameters:
         - name: bin
           in: query

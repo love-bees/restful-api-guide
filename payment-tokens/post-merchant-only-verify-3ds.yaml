@@ -23,184 +23,203 @@ paths:
         - lang: bash
           label: cURL
           source: |
-            curl -X POST "https://api.ccbill.com/payment-tokens/merchant-only-3ds" \
-             -H "accept: application/vnd.mcn.transaction-service.api.v.2+json"\
-             -H "authorization: Bearer [access_token]"\
-             -H "content-type: application/json" \
-             -d '{
-                  "clientAccnum": 900684,
-                  "clientSubacc": 0,
-                  "subscriptionId": 0,
-                  "customerInfo": {
-                    "customerFname": "Tyler",
-                    "customerLname": "Thomas",
-                    "address1": "Woodland Drive",
-                    "address2": "Apt 21",
-                    "city": "Tempe",
-                    "state": "AZ",
-                    "zipcode": "85281",
-                    "country": "US",
-                    "phoneNumber": "5555555555",
-                    "email": "tthomas@xyz.com",
-                    "ipAddress": "10.70.60.14'",
-                    "browserHttpUserAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0",
-                    "browserHttpAccept": "application/json",
-                    "browserHttpAcceptLanguage": "en-US",
-                    "browserHttpAcceptEncoding": "gzip"
-                  },
-                  "paymentInfo": {
-                    "creditCardPaymentInfo": {
-                      "cardNum": "4473707989493598",
-                      "nameOnCard": "Tyler Thomas",
-                      "expMonth": "04",
-                      "expYear": "2019",
-                      "cvv2": "951"
-                    }
-                  },
-                  "validNumberOfUse": 1,
-                  "threeds": {
-                    "threedsEci": "05",
-                    "threedsStatus": "Y",
-                    "threedsSuccess": true,
-                    "threedsVersion": "2.2.0",
-                    "threedsAmount": "1.0",
-                    "threedsClientTransactionId": "id-18kz8gxg7xv",
-                    "threedsCurrency": "840",
-                    "threedsSdkTransId": "aeba8094-ce5b-11ef-a890-0242ac110004",
-                    "threedsAcsTransId": "d6f15aae-2c9d-4333-a920-954be07c0c76",
-                    "threedsDsTransId": "3efc640b-8606-4d2a-a75e-9b9604fd7e9d",
-                    "threedsAuthenticationType": "01",
-                    "threedsAuthenticationValue": "AHUIg/TRI/Vo6qaaMN/eID4McaI="
+            curl -X POST https://api.ccbill.com/payment-tokens/merchant-only-verify-3ds \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer [access_token]" \  # Replace with your actual access token
+              -H "Cache-Control: no-cache" \
+              -H "Accept: application/vnd.mcn.transaction-service.api.v.2+json" \
+              -d '{
+                "clientAccnum": 900684,
+                "clientSubacc": 0,
+                "subscriptionId": 0,
+                "customerInfo": {
+                  "customerFname": "Tyler",
+                  "customerLname": "Thomas",
+                  "address1": "Woodland Drive",
+                  "address2": "Apt 21",
+                  "city": "Tempe",
+                  "state": "AZ",
+                  "zipcode": "85281",
+                  "country": "US",
+                  "phoneNumber": "5555555555",
+                  "email": "tthomas@xyz.com",
+                  "ipAddress": "10.70.60.14",
+                  "browserHttpUserAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0",
+                  "browserHttpAccept": "application/json",
+                  "browserHttpAcceptLanguage": "en-US",
+                  "browserHttpAcceptEncoding": "gzip"
+                },
+                "paymentInfo": {
+                  "creditCardPaymentInfo": {
+                    "cardNum": "4473707989493598",
+                    "nameOnCard": "Tyler Thomas",
+                    "expMonth": "04",
+                    "expYear": "2019",
+                    "cvv2": "951"
                   }
-                }' \
+                },
+                "timeToLive": 24,
+                "threeds": {
+                  "threedsEci": "05",
+                  "threedsStatus": "Y",
+                  "threedsSuccess": true,
+                  "threedsVersion": "2.2.0",
+                  "threedsAmount": "1.0",
+                  "threedsClientTransactionId": "id-18kz8gxg7xv",
+                  "threedsCurrency": "840",
+                  "threedsSdkTransId": "aeba8094-ce5b-11ef-a890-0242ac110004",
+                  "threedsAcsTransId": "d6f15aae-2c9d-4333-a920-954be07c0c76",
+                  "threedsDsTransId": "3efc640b-8606-4d2a-a75e-9b9604fd7e9d",
+                  "threedsAuthenticationType": "01",
+                  "threedsAuthenticationValue": "AHUIg/TRI/Vo6qaaMN/eID4McaI="
+                }
+              }'
+
         - lang: javascript
           label: JavaScript
           source: |
-            var data = JSON.stringify({
-              "clientAccnum": 900684,
-              "clientSubacc": 0,
-              "subscriptionId": 0,
-              "customerInfo": {
-                "customerFname": "Tyler",
-                "customerLname": "Thomas",
-                "address1": "Woodland Drive",
-                "address2": "Apt 21",
-                "city": "Tempe",
-                "state": "AZ",
-                "zipcode": "85281",
-                "country": "US",
-                "phoneNumber": "5555555555",
-                "email": "tthomas@xyz.com",
-                "ipAddress": "10.70.60.14'",
-                "browserHttpUserAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0",
-                "browserHttpAccept": "application/json",
-                "browserHttpAcceptLanguage": "en-US",
-                "browserHttpAcceptEncoding": "gzip"
+            const data = {
+              clientAccnum: 900684,
+              clientSubacc: 0,
+              subscriptionId: 0,
+              customerInfo: {
+                customerFname: "Tyler",
+                customerLname: "Thomas",
+                address1: "Woodland Drive",
+                address2: "Apt 21",
+                city: "Tempe",
+                state: "AZ",
+                zipcode: "85281",
+                country: "US",
+                phoneNumber: "5555555555",
+                email: "tthomas@xyz.com",
+                ipAddress: "10.70.60.14",
+                browserHttpUserAgent: "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0",
+                browserHttpAccept: "application/json",
+                browserHttpAcceptLanguage: "en-US",
+                browserHttpAcceptEncoding: "gzip"
               },
-              "paymentInfo": {
-                "creditCardPaymentInfo": {
-                  "cardNum": "4473707989493598",
-                  "nameOnCard": "Tyler Thomas",
-                  "expMonth": "04",
-                  "expYear": "2019",
-                  "cvv2": "951"
+              paymentInfo: {
+                creditCardPaymentInfo: {
+                  cardNum: "4473707989493598",
+                  nameOnCard: "Tyler Thomas",
+                  expMonth: "04",
+                  expYear: "2019",
+                  cvv2: "951"
                 }
               },
-              "validNumberOfUse": 1,
-              "threeds": {
-                "threedsEci": "05",
-                "threedsStatus": "Y",
-                "threedsSuccess": true,
-                "threedsVersion": "2.2.0",
-                "threedsAmount": "1.0",
-                "threedsClientTransactionId": "id-18kz8gxg7xv",
-                "threedsCurrency": "840",
-                "threedsSdkTransId": "aeba8094-ce5b-11ef-a890-0242ac110004",
-                "threedsAcsTransId": "d6f15aae-2c9d-4333-a920-954be07c0c76",
-                "threedsDsTransId": "3efc640b-8606-4d2a-a75e-9b9604fd7e9d",
-                "threedsAuthenticationType": "01",
-                "threedsAuthenticationValue": "AHUIg/TRI/Vo6qaaMN/eID4McaI="
+              timeToLive: 24,
+              threeds: {
+                threedsEci: "05",
+                threedsStatus: "Y",
+                threedsSuccess: true,
+                threedsVersion: "2.2.0",
+                threedsAmount: "1.0",
+                threedsClientTransactionId: "id-18kz8gxg7xv",
+                threedsCurrency: "840",
+                threedsSdkTransId: "aeba8094-ce5b-11ef-a890-0242ac110004",
+                threedsAcsTransId: "d6f15aae-2c9d-4333-a920-954be07c0c76",
+                threedsDsTransId: "3efc640b-8606-4d2a-a75e-9b9604fd7e9d",
+                threedsAuthenticationType: "01",
+                threedsAuthenticationValue: "AHUIg/TRI/Vo6qaaMN/eID4McaI="
               }
-            });
-            var xhr = new XMLHttpRequest();
-            xhr.withCredentials = true;
-            xhr.addEventListener("readystatechange", function () {
-            if (this.readyState === 4) {
-              console.log(this.responseText);
-            }
-            });
-            xhr.open("POST", "https://api.ccbill.com/payment-tokens/merchant-only");
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.setRequestHeader("Authorization", "Bearer [access_token]");
-            xhr.setRequestHeader("Cache-Control", "no-cache");
-            xhr.setRequestHeader("Accept", "application/vnd.mcn.transaction-service.api.v.2+json");
-            xhr.send(data);
+            };
+
+            fetch('https://api.ccbill.com/payment-tokens/merchant-only-verify-3ds', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer [access_token]',  // Replace with your actual access token
+                'Cache-Control': 'no-cache',
+                'Accept': 'application/vnd.mcn.transaction-service.api.v.2+json'
+              },
+              body: JSON.stringify(data)
+            })
+              .then(response => response.json())
+              .then(data => {
+                console.log('Success:', data);
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+
         - lang: php
           label: PHP
           source: |
             <?php
-            $request = new HttpRequest();
-            $request->setUrl('https://api.ccbill.com/payment-tokens/merchant-only');
-            $request->setMethod(HTTP_METH_POST);
-            $request->setHeaders(array(
-              'Cache-Control' => 'no-cache',
-              'Authorization' => 'Bearer [access_token]',
-              'Content-Type' => 'application/json',
-              'Accept' => 'application/vnd.mcn.transaction-service.api.v.2+json'
+
+            $data = array(
+                "clientAccnum" => 900684,
+                "clientSubacc" => 0,
+                "subscriptionId" => 0,
+                "customerInfo" => array(
+                    "customerFname" => "Tyler",
+                    "customerLname" => "Thomas",
+                    "address1" => "Woodland Drive",
+                    "address2" => "Apt 21",
+                    "city" => "Tempe",
+                    "state" => "AZ",
+                    "zipcode" => "85281",
+                    "country" => "US",
+                    "phoneNumber" => "5555555555",
+                    "email" => "tthomas@xyz.com",
+                    "ipAddress" => "10.70.60.14",
+                    "browserHttpUserAgent" => "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0",
+                    "browserHttpAccept" => "application/json",
+                    "browserHttpAcceptLanguage" => "en-US",
+                    "browserHttpAcceptEncoding" => "gzip"
+                ),
+                "paymentInfo" => array(
+                    "creditCardPaymentInfo" => array(
+                        "cardNum" => "4473707989493598",
+                        "nameOnCard" => "Tyler Thomas",
+                        "expMonth" => "04",
+                        "expYear" => "2019",
+                        "cvv2" => "951"
+                    )
+                ),
+                "timeToLive" => 24,
+                "threeds" => array(
+                    "threedsEci" => "05",
+                    "threedsStatus" => "Y",
+                    "threedsSuccess" => true,
+                    "threedsVersion" => "2.2.0",
+                    "threedsAmount" => "1.0",
+                    "threedsClientTransactionId" => "id-18kz8gxg7xv",
+                    "threedsCurrency" => "840",
+                    "threedsSdkTransId" => "aeba8094-ce5b-11ef-a890-0242ac110004",
+                    "threedsAcsTransId" => "d6f15aae-2c9d-4333-a920-954be07c0c76",
+                    "threedsDsTransId" => "3efc640b-8606-4d2a-a75e-9b9604fd7e9d",
+                    "threedsAuthenticationType" => "01",
+                    "threedsAuthenticationValue" => "AHUIg/TRI/Vo6qaaMN/eID4McaI="
+                )
+            );
+
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, "https://api.ccbill.com/payment-tokens/merchant-only-verify-3ds");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                "Content-Type: application/json",
+                "Authorization: Bearer [access_token]",
+                "Cache-Control: no-cache",
+                "Accept: application/vnd.mcn.transaction-service.api.v.2+json"
             ));
-            $request->setBody('{
-                                "clientAccnum": 900684,
-                                "clientSubacc": 0,
-                                "subscriptionId": 0,
-                                "customerInfo": {
-                                  "customerFname": "Tyler",
-                                  "customerLname": "Thomas",
-                                  "address1": "Woodland Drive",
-                                  "address2": "Apt 21",
-                                  "city": "Tempe",
-                                  "state": "AZ",
-                                  "zipcode": "85281",
-                                  "country": "US",
-                                  "phoneNumber": "5555555555",
-                                  "email": "tthomas@xyz.com",
-                                  "ipAddress": "10.70.60.14'",
-                                  "browserHttpUserAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0",
-                                  "browserHttpAccept": "application/json",
-                                  "browserHttpAcceptLanguage": "en-US",
-                                  "browserHttpAcceptEncoding": "gzip"
-                                },
-                                "paymentInfo": {
-                                  "creditCardPaymentInfo": {
-                                    "cardNum": "4473707989493598",
-                                    "nameOnCard": "Tyler Thomas",
-                                    "expMonth": "04",
-                                    "expYear": "2019",
-                                    "cvv2": "951"
-                                  }
-                                },
-                                "validNumberOfUse": 1,
-                                "threeds": {
-                                  "threedsEci": "05",
-                                  "threedsStatus": "Y",
-                                  "threedsSuccess": true,
-                                  "threedsVersion": "2.2.0",
-                                  "threedsAmount": "1.0",
-                                  "threedsClientTransactionId": "id-18kz8gxg7xv",
-                                  "threedsCurrency": "840",
-                                  "threedsSdkTransId": "aeba8094-ce5b-11ef-a890-0242ac110004",
-                                  "threedsAcsTransId": "d6f15aae-2c9d-4333-a920-954be07c0c76",
-                                  "threedsDsTransId": "3efc640b-8606-4d2a-a75e-9b9604fd7e9d",
-                                  "threedsAuthenticationType": "01",
-                                  "threedsAuthenticationValue": "AHUIg/TRI/Vo6qaaMN/eID4McaI="
-                                }
-                              }');
-            try {
-              $response = $request->send();
-              echo $response->getBody();
-            } catch (HttpException $ex) {
-              echo $ex;
+
+            $response = curl_exec($ch);
+
+            if(curl_errno($ch)) {
+                echo 'Curl error: ' . curl_error($ch);
             }
+
+            curl_close($ch);
+
+            echo $response;
+
             ?>
+
       requestBody:
         required: true
         content:

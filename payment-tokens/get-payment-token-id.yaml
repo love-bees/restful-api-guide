@@ -22,43 +22,51 @@ paths:
           label: cURL
           source: |
             curl -X GET "https://api.ccbill.com/payment-tokens/ee0d05a3c41127025decd7c37855f42a" \
-              -H "accept: application/vnd.mcn.transaction-service.api.v.2+json"\
-              -H "authorization: Bearer [access_token]" \
-              -H "cache-control: no-cache" \
+              -H "Accept: application/vnd.mcn.transaction-service.api.v.2+json" \
+              -H "Authorization: Bearer [access_token]" \
+              -H "Cache-Control: no-cache"
+
         - lang: javascript
           label: JavaScript
           source: |
-            var data = null;
-            var xhr = new XMLHttpRequest();
-            xhr.withCredentials = true;
-            xhr.addEventListener("readystatechange", function () {
-              if (this.readyState === 4) {
-                console.log(this.responseText);
-              }
-            });
-            xhr.open("GET", "https://api.ccbill.com/payment-tokens/ee0d05a3c41127025decd7c37855f42a");
-            xhr.setRequestHeader("Authorization", "Bearer [access_token]");
-            xhr.setRequestHeader("Cache-Control", "no-cache");
-            xhr.setRequestHeader("Accept", "application/vnd.mcn.transaction-service.api.v.2+json");
-            xhr.send(data);
+            const url = "https://api.ccbill.com/payment-tokens/ee0d05a3c41127025decd7c37855f42a";
+            const headers = {
+              "Accept": "application/vnd.mcn.transaction-service.api.v.2+json",
+              "Authorization": "Bearer [access_token]",
+              "Cache-Control": "no-cache"
+            };
+
+            fetch(url, {
+              method: 'GET',
+              headers: headers
+            })
+              .then(response => response.json())
+              .then(data => console.log(data))
+              .catch(error => console.error('Error:', error));
         - lang: php
           label: PHP
           source: |
             <?php
-            $request = new HttpRequest();
-            $request->setUrl('https://api.ccbill.com/payment-tokens/ee0d05a3c41127025decd7c37855f42a');
-            $request->setMethod(HTTP_METH_GET);
-            $request->setHeaders(array(
-              'Cache-Control' => 'no-cache',
-              'Authorization' => 'Bearer [access_token]',
-              'Accept' => 'application/vnd.mcn.transaction-service.api.v.2+json'
-            ));
-            try {
-              $response = $request->send();
-              echo $response->getBody();
-            } catch (HttpException $ex) {
-              echo $ex;
+            $url = "https://api.ccbill.com/payment-tokens/ee0d05a3c41127025decd7c37855f42a";
+            $headers = [
+                "Accept: application/vnd.mcn.transaction-service.api.v.2+json",
+                "Authorization: Bearer [access_token]",
+                "Cache-Control: no-cache"
+            ];
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $response = curl_exec($ch);
+
+            if ($response === false) {
+                echo "Error: " . curl_error($ch);
+            } else {
+                echo "Response: " . $response;
             }
+
+            curl_close($ch);
             ?>
       parameters:
         - name: paymentTokenId
