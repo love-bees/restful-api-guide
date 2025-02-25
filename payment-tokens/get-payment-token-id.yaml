@@ -442,12 +442,6 @@ components:
         message:
           description: User friendly message
           type: string
-      required:
-        - field
-        - message
-      example:
-        field: string
-        message: string
     Error:
       type: object
       properties:

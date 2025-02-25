@@ -13,6 +13,7 @@ security:
 paths:
   /payment-tokens/target-client:
     post:
+      deprecated: true
       tags:
         - /payment-tokens
       summary: Create a Payment Token (without providing CVV for verification) to be used for cross-sales.
@@ -711,12 +712,6 @@ components:
         message:
           description: User friendly message
           type: string
-      required:
-        - field
-        - message
-      example:
-        field: string
-        message: string
     Error:
       type: object
       properties:

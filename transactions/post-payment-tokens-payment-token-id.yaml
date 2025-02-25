@@ -19,9 +19,7 @@ paths:
         - /transactions
       summary: Create a transaction request
       description: |-
-        The POST `/transactions/payment-tokens/{paymentTokenId}` API call will create a transaction request for a customer.
-        The customer is identified by a token that is obtained from an affiliate. If the token is short-lived, and this is the first billing for this customer a longer-lived token is returned.
-        Supply the payment token ID as a URI parameter.
+        The POST `/transactions/payment-tokens/{paymentTokenId}` API call initiates a transaction request for a customer, who is identified by a token. If the `createNewPaymentToken` request parameter is set to `true`, the response will include a new long-lived token. The payment token ID must be provided as a URI parameter.
       requestBody:
         required: true
         content:
@@ -475,12 +473,6 @@ components:
         message:
           description: User friendly message
           type: string
-      required:
-        - field
-        - message
-      example:
-        field: string
-        message: string
     Error:
       type: object
       properties:

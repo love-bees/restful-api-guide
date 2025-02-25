@@ -60,14 +60,6 @@ paths:
               - AUD - 036
               - JPY - 392
           example: 978
-        - name: Widget-Version
-          in: header
-          schema:
-            default: Unversioned
-            example: 1.11.0
-            type: string
-          description: Version of the MCN Widget making the call
-
       responses:
         '200':
           description: Successful Response whether 3DS is required.
@@ -225,12 +217,6 @@ components:
         message:
           description: User friendly message
           type: string
-      required:
-        - field
-        - message
-      example:
-        field: string
-        message: string
     Error:
       type: object
       properties:

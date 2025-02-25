@@ -21,7 +21,7 @@ paths:
         - lang: bash
           label: cURL
           source: |
-            curl -X GET "https://api.ccbill.com/payment-tokens/threeds-required?bin=411111&last4=1111&clientAccnum=900000&clientSubacc=2" \
+            curl -X GET "https://api.ccbill.com/payment-tokens/threeds-required?bin=411111&last4=1111&clientAccnum=900000&clientSubacc=2&currencyCode=840" \
             -H "accept: application/vnd.mcn.transaction-service.api.v.2+json"\
             -H "authorization: Bearer [access_token]" \
         - lang: javascript
@@ -35,7 +35,7 @@ paths:
                 console.log(this.responseText);
               }
             });
-            xhr.open("GET", "https://api.ccbill.com/payment-tokens/threeds-required?bin=411111&last4=1111&clientAccnum=900000&clientSubacc=2");
+            xhr.open("GET", "https://api.ccbill.com/payment-tokens/threeds-required?bin=411111&last4=1111&clientAccnum=900000&clientSubacc=2&currencyCode=840");
             xhr.setRequestHeader("Authorization", "Bearer [access_token]");
             xhr.setRequestHeader("Accept", "application/vnd.mcn.transaction-service.api.v.2+json");
             xhr.setRequestHeader("Cache-Control", "no-cache");
@@ -51,7 +51,8 @@ paths:
               'bin' => '411111',
               'last4' => '1111',
               'clientAccnum' => '900684',
-              'clientSubacc' => '0000'
+              'clientSubacc' => '2',
+              'currencyCode' => '840'
             ));
             $request->setHeaders(array(
               'cache-control' => 'no-cache',
@@ -118,13 +119,6 @@ paths:
               - CAD - 124
               - AUD - 036
               - JPY - 392
-        - name: Widget-Version
-          in: header
-          schema:
-            default: Unversioned
-            example: 1.11.0
-            type: string
-          description: Version of the MCN Widget making the call
       responses:
         '200':
           description: Successful Response
@@ -313,12 +307,6 @@ components:
         message:
           description: User friendly message
           type: string
-      required:
-        - field
-        - message
-      example:
-        field: string
-        message: string
     Error:
       type: object
       properties:
