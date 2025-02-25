@@ -29,7 +29,19 @@ paths:
               $ref: '#/components/schemas/ThreedsTransactionRequest'
             examples:
               Single billing 3DS transaction:
-                description: Request body for charging a token and initiating one time 3DS transaction of 50 EUR passing a customer reference as a pass-through parameter.
+                description: |-
+                  Holds information relevant to a 3DS transaction made by charging the provided Payment Token and SCA results.
+
+                  The `threedsAmount` should be equal to the `initialPrice`.
+
+                  For other SCA results, in case of successful authentication, required fields are: 
+                    - `threedsEci`
+                    - `threedsVersion`
+                    - `threedsStatus`
+                    - `threedsDsTransId`
+                    - `threedsAuthenticationValue`
+                  
+                  In case of an error, the `threedsError` field is required.
                 value:
                   {
                     "clientAccnum": 900684,
@@ -566,12 +578,13 @@ components:
             - clientSubacc
             - initialPrice
             - initialPeriod
-            - threedsCardToken
-            - currencyCode
-            - threedsCavv
             - threedsEci
-            - threedsClientTransactionId
-            - threedsSuccess
+            - threedsStatus
+            - threedsVersion
+            - threedsAmount
+            - threedsDsTransId
+            - threedsAuthenticationValue
+            - threedsError
         example:
             clientAccnum: 900123
             clientSubacc: 10
