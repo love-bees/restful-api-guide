@@ -195,29 +195,37 @@ paths:
                 Single use Payment Token response:
                   description: Payment token that can be charged only once
                   value:              
-                    paymentTokenId: "019f5576d7f046c3a375e8a054f2c033"
-                    programParticipationId: null
-                    originalPaymentTokenId: null
-                    clientAccnum: 900684
-                    clientSubacc: 0
-                    createdDatetime: "2024-11-08T12:22:51"
-                    timeToLive: 2147483647
-                    validNumberOfUse: 1
-                    subscriptionId: "924313501000000101"
-                    paymentInfoId: null
+                    {
+                      "paymentTokenId": "019f5576d7f046c3a375e8a054f2c033",
+                      "programParticipationId": null,
+                      "originalPaymentTokenId": null,
+                      "clientAccnum": 900684,
+                      "clientSubacc": 0,
+                      "createdDatetime": "2024-11-08T12:22:51",
+                      "timeToLive": 2147483647,
+                      "validNumberOfUse": 1,
+                      "subscriptionId": "924313501000000100",
+                      "paymentInfoId": null,
+                      "cvv2Response": "M",
+                      "avsResponse": "H"
+                    }
                 24 hour Payment Token response:
                   description: Payment token that is valid for 24 hours
                   value:              
-                    paymentTokenId: "019f5576d7f046c3a375e8a054f2c033"
-                    programParticipationId: null
-                    originalPaymentTokenId: null
-                    clientAccnum: 900684
-                    clientSubacc: 0
-                    createdDatetime: "2024-11-08T12:22:51"
-                    timeToLive: 24
-                    validNumberOfUse: 2147483647
-                    subscriptionId: "924313501000000101"
-                    paymentInfoId: null
+                    {
+                      "paymentTokenId": "019f5576d7f046c3a375e8a054f2c033",
+                      "programParticipationId": null,
+                      "originalPaymentTokenId": null,
+                      "clientAccnum": 900684,
+                      "clientSubacc": 0,
+                      "createdDatetime": "2024-11-08T12:22:51",
+                      "timeToLive": 24,
+                      "validNumberOfUse": 2147483647,
+                      "subscriptionId": "924313501000000101",
+                      "paymentInfoId": null,
+                      "cvv2Response": "M",
+                      "avsResponse": "H"
+                    }
             application/vnd.mcn.transaction-service.api.v.1+json:  
               schema:
                 $ref: '#/components/schemas/PaymentToken'
@@ -225,29 +233,37 @@ paths:
                 Single use Payment Token response:
                   description: Payment token that can be charged only once
                   value:              
-                    paymentTokenId: "019f5576d7f046c3a375e8a054f2c033"
-                    programParticipationId: null
-                    originalPaymentTokenId: null
-                    clientAccnum: 900684
-                    clientSubacc: 0
-                    createdDatetime: "2024-11-08T12:22:51"
-                    timeToLive: 2147483647
-                    validNumberOfUse: 1
-                    subscriptionId: 924313501000000101
-                    paymentInfoId: null
+                    {
+                      "paymentTokenId": "019f5576d7f046c3a375e8a054f2c033",
+                      "programParticipationId": null,
+                      "originalPaymentTokenId": null,
+                      "clientAccnum": 900684,
+                      "clientSubacc": 0,
+                      "createdDatetime": "2024-11-08T12:22:51",
+                      "timeToLive": 2147483647,
+                      "validNumberOfUse": 1,
+                      "subscriptionId": 924313501000000100,
+                      "paymentInfoId": null,
+                      "cvv2Response": "M",
+                      "avsResponse": "H"
+                    }
                 24 hour Payment Token response:
                   description: Payment token that is valid for 24 hours
                   value:              
-                    paymentTokenId: "019f5576d7f046c3a375e8a054f2c033"
-                    programParticipationId: null
-                    originalPaymentTokenId: null
-                    clientAccnum: 900684
-                    clientSubacc: 0
-                    createdDatetime: "2024-11-08T12:22:51"
-                    timeToLive: 24
-                    validNumberOfUse: 2147483647
-                    subscriptionId: 924313501000000101
-                    paymentInfoId: null
+                    {
+                      "paymentTokenId": "019f5576d7f046c3a375e8a054f2c033",
+                      "programParticipationId": null,
+                      "originalPaymentTokenId": null,
+                      "clientAccnum": 900684,
+                      "clientSubacc": 0,
+                      "createdDatetime": "2024-11-08T12:22:51",
+                      "timeToLive": 24,
+                      "validNumberOfUse": 2147483647,
+                      "subscriptionId": 924313501000000101,
+                      "paymentInfoId": null,
+                      "cvv2Response": "M",
+                      "avsResponse": "H"
+                    }
         '400':
           description: Bad Request. The response failed to complete due to an invalid header, query or request body parameter. This response does not differ between versions.
           content:
@@ -558,6 +574,49 @@ components:
           description: Identification of the subscription associated with the transaction
           type: integer
           format: int64
+        cvv2Response:
+          description: The result of CVV2 verification
+          type: string
+          nullable: true
+          enum:
+            - "M"  # CVV2 Match
+            - "N"  # CVV2 No Match
+            - "P"  # CVV2 Not Processed
+            - "S"  # CVV2 Service Not Allowed
+            - "U"  # CVV2 Unreadable
+          example: "M"
+        avsResponse:
+          description: The result of AVS verification.
+          type: string
+          nullable: true
+          enum:
+            - "A"  # Address matches, ZIP does not
+            - "B"  # Address and ZIP match (both are blank)
+            - "C"  # Address matches, ZIP does not
+            - "D"  # Address matches, ZIP does not
+            - "E"  # AVS error
+            - "F"  # Address and ZIP match
+            - "G"  # Address matches, ZIP does not
+            - "H"  # Address and ZIP match
+            - "I"  # AVS unavailable
+            - "J"  # Address matches, ZIP does not
+            - "K"  # Address matches, ZIP does not
+            - "L"  # Address matches, ZIP does not
+            - "M"  # Address and ZIP match
+            - "N"  # Address and ZIP do not match
+            - "O"  # Address and ZIP match (both are blank)
+            - "P"  # Address and ZIP match (both are blank)
+            - "Q"  # Address and ZIP match (both are blank)
+            - "R"  # Address matches, ZIP does not
+            - "S"  # Address matches, ZIP does not
+            - "T"  # Address matches, ZIP does not
+            - "U"  # Address matches, ZIP does not
+            - "V"  # Address matches, ZIP does not
+            - "W"  # Address matches, ZIP does not
+            - "X"  # Address and ZIP match
+            - "Y"  # Address and ZIP match
+            - "Z"  # Address and ZIP match
+          example: "H"
     PaymentTokenV2:
       description: These response parameters are received when a payment token is successfully created.
       type: object

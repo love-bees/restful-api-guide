@@ -1,0 +1,1332 @@
+openapi: 3.1.0
+info:
+  title: RESTful API Endpoints
+  version: 1.0.0
+servers:
+  - url: https://api.ccbill.com
+    description: Production Server
+tags:
+  - name: /payment-tokens
+    description: Use the `/payment-tokens` resource to create a token that identifies a user in the system. The token can be passed on to the system in a transaction request, thus enabling you to bill a customer.
+security:
+  - bearerAuth: []
+paths:
+  /payment-tokens/merchant-only-verify-3ds:
+    post:
+      tags:
+        - /payment-tokens
+      summary: Create a Payment Token (with CVV verification and SCA results)
+      description: |-
+        The endpoint is intended for creating a payment token for transactions which are in scope of PSD2.
+        Given the credit card payment details, including CVV, and SCA results, it saves details to the database and returns a payment token. This payment token will refer to the saved details and can be charged at a later stage.
+      x-codeSamples:
+        - lang: bash
+          label: cURL
+          source: |
+            curl -X POST "https://api.ccbill.com/payment-tokens/merchant-only-3ds" \
+             -H "accept: application/vnd.mcn.transaction-service.api.v.2+json"\
+             -H "authorization: Bearer [access_token]"\
+             -H "content-type: application/json" \
+             -d '{
+                  "clientAccnum": 900684,
+                  "clientSubacc": 0,
+                  "subscriptionId": 0,
+                  "customerInfo": {
+                    "customerFname": "Tyler",
+                    "customerLname": "Thomas",
+                    "address1": "Woodland Drive",
+                    "address2": "Apt 21",
+                    "city": "Tempe",
+                    "state": "AZ",
+                    "zipcode": "85281",
+                    "country": "US",
+                    "phoneNumber": "5555555555",
+                    "email": "tthomas@xyz.com",
+                    "ipAddress": "10.70.60.14'",
+                    "browserHttpUserAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0",
+                    "browserHttpAccept": "application/json",
+                    "browserHttpAcceptLanguage": "en-US",
+                    "browserHttpAcceptEncoding": "gzip"
+                  },
+                  "paymentInfo": {
+                    "creditCardPaymentInfo": {
+                      "cardNum": "4473707989493598",
+                      "nameOnCard": "Tyler Thomas",
+                      "expMonth": "04",
+                      "expYear": "2019",
+                      "cvv2": "951"
+                    }
+                  },
+                  "validNumberOfUse": 1,
+                  "threeds": {
+                    "threedsEci": "05",
+                    "threedsStatus": "Y",
+                    "threedsSuccess": true,
+                    "threedsVersion": "2.2.0",
+                    "threedsAmount": "1.0",
+                    "threedsClientTransactionId": "id-18kz8gxg7xv",
+                    "threedsCurrency": "840",
+                    "threedsSdkTransId": "aeba8094-ce5b-11ef-a890-0242ac110004",
+                    "threedsAcsTransId": "d6f15aae-2c9d-4333-a920-954be07c0c76",
+                    "threedsDsTransId": "3efc640b-8606-4d2a-a75e-9b9604fd7e9d",
+                    "threedsAuthenticationType": "01",
+                    "threedsAuthenticationValue": "AHUIg/TRI/Vo6qaaMN/eID4McaI="
+                  }
+                }' \
+        - lang: javascript
+          label: JavaScript
+          source: |
+            var data = JSON.stringify({
+              "clientAccnum": 900684,
+              "clientSubacc": 0,
+              "subscriptionId": 0,
+              "customerInfo": {
+                "customerFname": "Tyler",
+                "customerLname": "Thomas",
+                "address1": "Woodland Drive",
+                "address2": "Apt 21",
+                "city": "Tempe",
+                "state": "AZ",
+                "zipcode": "85281",
+                "country": "US",
+                "phoneNumber": "5555555555",
+                "email": "tthomas@xyz.com",
+                "ipAddress": "10.70.60.14'",
+                "browserHttpUserAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0",
+                "browserHttpAccept": "application/json",
+                "browserHttpAcceptLanguage": "en-US",
+                "browserHttpAcceptEncoding": "gzip"
+              },
+              "paymentInfo": {
+                "creditCardPaymentInfo": {
+                  "cardNum": "4473707989493598",
+                  "nameOnCard": "Tyler Thomas",
+                  "expMonth": "04",
+                  "expYear": "2019",
+                  "cvv2": "951"
+                }
+              },
+              "validNumberOfUse": 1,
+              "threeds": {
+                "threedsEci": "05",
+                "threedsStatus": "Y",
+                "threedsSuccess": true,
+                "threedsVersion": "2.2.0",
+                "threedsAmount": "1.0",
+                "threedsClientTransactionId": "id-18kz8gxg7xv",
+                "threedsCurrency": "840",
+                "threedsSdkTransId": "aeba8094-ce5b-11ef-a890-0242ac110004",
+                "threedsAcsTransId": "d6f15aae-2c9d-4333-a920-954be07c0c76",
+                "threedsDsTransId": "3efc640b-8606-4d2a-a75e-9b9604fd7e9d",
+                "threedsAuthenticationType": "01",
+                "threedsAuthenticationValue": "AHUIg/TRI/Vo6qaaMN/eID4McaI="
+              }
+            });
+            var xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+            xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+              console.log(this.responseText);
+            }
+            });
+            xhr.open("POST", "https://api.ccbill.com/payment-tokens/merchant-only");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.setRequestHeader("Authorization", "Bearer [access_token]");
+            xhr.setRequestHeader("Cache-Control", "no-cache");
+            xhr.setRequestHeader("Accept", "application/vnd.mcn.transaction-service.api.v.2+json");
+            xhr.send(data);
+        - lang: php
+          label: PHP
+          source: |
+            <?php
+            $request = new HttpRequest();
+            $request->setUrl('https://api.ccbill.com/payment-tokens/merchant-only');
+            $request->setMethod(HTTP_METH_POST);
+            $request->setHeaders(array(
+              'Cache-Control' => 'no-cache',
+              'Authorization' => 'Bearer [access_token]',
+              'Content-Type' => 'application/json',
+              'Accept' => 'application/vnd.mcn.transaction-service.api.v.2+json'
+            ));
+            $request->setBody('{
+                                "clientAccnum": 900684,
+                                "clientSubacc": 0,
+                                "subscriptionId": 0,
+                                "customerInfo": {
+                                  "customerFname": "Tyler",
+                                  "customerLname": "Thomas",
+                                  "address1": "Woodland Drive",
+                                  "address2": "Apt 21",
+                                  "city": "Tempe",
+                                  "state": "AZ",
+                                  "zipcode": "85281",
+                                  "country": "US",
+                                  "phoneNumber": "5555555555",
+                                  "email": "tthomas@xyz.com",
+                                  "ipAddress": "10.70.60.14'",
+                                  "browserHttpUserAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0",
+                                  "browserHttpAccept": "application/json",
+                                  "browserHttpAcceptLanguage": "en-US",
+                                  "browserHttpAcceptEncoding": "gzip"
+                                },
+                                "paymentInfo": {
+                                  "creditCardPaymentInfo": {
+                                    "cardNum": "4473707989493598",
+                                    "nameOnCard": "Tyler Thomas",
+                                    "expMonth": "04",
+                                    "expYear": "2019",
+                                    "cvv2": "951"
+                                  }
+                                },
+                                "validNumberOfUse": 1,
+                                "threeds": {
+                                  "threedsEci": "05",
+                                  "threedsStatus": "Y",
+                                  "threedsSuccess": true,
+                                  "threedsVersion": "2.2.0",
+                                  "threedsAmount": "1.0",
+                                  "threedsClientTransactionId": "id-18kz8gxg7xv",
+                                  "threedsCurrency": "840",
+                                  "threedsSdkTransId": "aeba8094-ce5b-11ef-a890-0242ac110004",
+                                  "threedsAcsTransId": "d6f15aae-2c9d-4333-a920-954be07c0c76",
+                                  "threedsDsTransId": "3efc640b-8606-4d2a-a75e-9b9604fd7e9d",
+                                  "threedsAuthenticationType": "01",
+                                  "threedsAuthenticationValue": "AHUIg/TRI/Vo6qaaMN/eID4McaI="
+                                }
+                              }');
+            try {
+              $response = $request->send();
+              echo $response->getBody();
+            } catch (HttpException $ex) {
+              echo $ex;
+            }
+            ?>
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentTokenMerchantOnlyVerify3dsParams'
+            examples:
+              Single use Payment Token creation (with CVV and 3DS):
+                description: Request body for creating a payment token that can be charged only once
+                value:
+                  {
+                    "clientAccnum": 900684,
+                    "clientSubacc": 0,
+                    "subscriptionId": 0,
+                    "customerInfo": {
+                      "customerFname": "Tyler",
+                      "customerLname": "Thomas",
+                      "address1": "Woodland Drive",
+                      "address2": "Apt 21",
+                      "city": "Tempe",
+                      "state": "AZ",
+                      "zipcode": "85281",
+                      "country": "US",
+                      "phoneNumber": "5555555555",
+                      "email": "tthomas@xyz.com",
+                      "ipAddress": "10.70.60.14'",
+                      "browserHttpUserAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0",
+                      "browserHttpAccept": "application/json",
+                      "browserHttpAcceptLanguage": "en-US",
+                      "browserHttpAcceptEncoding": "gzip"
+                    },
+                    "paymentInfo": {
+                      "creditCardPaymentInfo": {
+                        "cardNum": "4473707989493598",
+                        "nameOnCard": "Tyler Thomas",
+                        "expMonth": "04",
+                        "expYear": "2019",
+                        "cvv2": "951"
+                      }
+                    },
+                    "validNumberOfUse": 1,
+                    "threeds": {
+                      "threedsEci": "05",
+                      "threedsStatus": "Y",
+                      "threedsSuccess": true,
+                      "threedsVersion": "2.2.0",
+                      "threedsAmount": "1.0",
+                      "threedsClientTransactionId": "id-18kz8gxg7xv",
+                      "threedsCurrency": "840",
+                      "threedsSdkTransId": "aeba8094-ce5b-11ef-a890-0242ac110004",
+                      "threedsAcsTransId": "d6f15aae-2c9d-4333-a920-954be07c0c76",
+                      "threedsDsTransId": "3efc640b-8606-4d2a-a75e-9b9604fd7e9d",
+                      "threedsAuthenticationType": "01",
+                      "threedsAuthenticationValue": "AHUIg/TRI/Vo6qaaMN/eID4McaI="
+                    }
+                  }
+              24 hours valid Payment Token creation (with CVV):
+                description: Request body for creating a payment token that is valid for 24 hours
+                value:
+                  {
+                    "clientAccnum": 900684,
+                    "clientSubacc": 0,
+                    "subscriptionId": 0,
+                    "customerInfo": {
+                      "customerFname": "Tyler",
+                      "customerLname": "Thomas",
+                      "address1": "Woodland Drive",
+                      "address2": "Apt 21",
+                      "city": "Tempe",
+                      "state": "AZ",
+                      "zipcode": "85281",
+                      "country": "US",
+                      "phoneNumber": "5555555555",
+                      "email": "tthomas@xyz.com",
+                      "ipAddress": "10.70.60.14'",
+                      "browserHttpUserAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0",
+                      "browserHttpAccept": "application/json",
+                      "browserHttpAcceptLanguage": "en-US",
+                      "browserHttpAcceptEncoding": "gzip"
+                    },
+                    "paymentInfo": {
+                      "creditCardPaymentInfo": {
+                        "cardNum": "4473707989493598",
+                        "nameOnCard": "Tyler Thomas",
+                        "expMonth": "04",
+                        "expYear": "2019",
+                        "cvv2": "951"
+                      }
+                    },
+                    "timeToLive": 24,
+                    "threeds": {
+                      "threedsEci": "05",
+                      "threedsStatus": "Y",
+                      "threedsSuccess": true,
+                      "threedsVersion": "2.2.0",
+                      "threedsAmount": "1.0",
+                      "threedsClientTransactionId": "id-18kz8gxg7xv",
+                      "threedsCurrency": "840",
+                      "threedsSdkTransId": "aeba8094-ce5b-11ef-a890-0242ac110004",
+                      "threedsAcsTransId": "d6f15aae-2c9d-4333-a920-954be07c0c76",
+                      "threedsDsTransId": "3efc640b-8606-4d2a-a75e-9b9604fd7e9d",
+                      "threedsAuthenticationType": "01",
+                      "threedsAuthenticationValue": "AHUIg/TRI/Vo6qaaMN/eID4McaI="
+                    }
+                  }
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/vnd.mcn.transaction-service.api.v.2+json:
+              schema:
+                $ref: '#/components/schemas/PaymentTokenV2'
+              examples:
+                Single use Payment Token response:
+                  description: Payment token that can be charged only once
+                  value:              
+                    {
+                      "paymentTokenId": "019f5576d7f046c3a375e8a054f2c033",
+                      "programParticipationId": null,
+                      "originalPaymentTokenId": null,
+                      "clientAccnum": 900684,
+                      "clientSubacc": 0,
+                      "createdDatetime": "2024-11-08T12:22:51",
+                      "timeToLive": 2147483647,
+                      "validNumberOfUse": 1,
+                      "subscriptionId": "924313501000000101",
+                      "paymentInfoId": null,
+                      "cvv2Response": "M",
+                      "avsResponse": "H"
+                    }
+                24 hour Payment Token response:
+                  description: Payment token that is valid for 24 hours
+                  value:              
+                    paymentTokenId: "019f5576d7f046c3a375e8a054f2c033"
+                    programParticipationId: null
+                    originalPaymentTokenId: null
+                    clientAccnum: 900684
+                    clientSubacc: 0
+                    createdDatetime: "2024-11-08T12:22:51"
+                    timeToLive: 24
+                    validNumberOfUse: 2147483647
+                    subscriptionId: "924313501000000101"
+                    paymentInfoId: null
+            application/vnd.mcn.transaction-service.api.v.1+json:  
+              schema:
+                $ref: '#/components/schemas/PaymentToken'
+              examples:
+                Single use Payment Token response:
+                  description: Payment token that can be charged only once
+                  value:              
+                    paymentTokenId: "019f5576d7f046c3a375e8a054f2c033"
+                    programParticipationId: null
+                    originalPaymentTokenId: null
+                    clientAccnum: 900684
+                    clientSubacc: 0
+                    createdDatetime: "2024-11-08T12:22:51"
+                    timeToLive: 2147483647
+                    validNumberOfUse: 1
+                    subscriptionId: 924313501000000101
+                    paymentInfoId: null
+                24 hour Payment Token response:
+                  description: Payment token that is valid for 24 hours
+                  value:              
+                    paymentTokenId: "019f5576d7f046c3a375e8a054f2c033"
+                    programParticipationId: null
+                    originalPaymentTokenId: null
+                    clientAccnum: 900684
+                    clientSubacc: 0
+                    createdDatetime: "2024-11-08T12:22:51"
+                    timeToLive: 24
+                    validNumberOfUse: 2147483647
+                    subscriptionId: 924313501000000101
+                    paymentInfoId: null
+        '400':
+          description: Bad Request. The response failed to complete due to an invalid header, query or request body parameter. This response does not differ between versions.
+          content:
+            application/vnd.com.cwie.error.v1+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Bad Request:
+                  description: |- 
+                    Returned when one of `requestBody`'s fields is not valid.<br>
+                    <em>Note</em>: For completeness the `errors` array in this example holds errors for all existing validated fields, but any subset of these can be returned.
+	
+                  value:
+                    {
+  "id": "a90a6a04-da1a-4b58-a78d-f55e1bc09efd",
+  "url": "/payment-tokens/merchant-only-verify-3ds",
+  "errors": [
+              {
+                "field": "clientAccnum",
+                "message": "Attribute required"
+              },
+              {
+                "field": "clientAccnum",
+                "message": "Problem with attribute size"
+              },
+              {
+                "field": "clientSubacc",
+                "message": "Attribute required"
+              },
+              {
+                "field": "clientSubacc",
+                "message": "Problem with attribute size"
+              },
+              {
+                "field": "subscriptionId",
+                "message": "Attribute required"
+              },
+              {
+                "field": "customerInfo.customerFname",
+                "message": "Attribute required"
+              },
+              {
+                "field": "customerInfo.customerLname",
+                "message": "Attribute required"
+              },
+              {
+                "field": "customerInfo.email",
+                "message": "Attribute required"
+              },
+              {
+                "field": "customerInfo.email",
+                "message": "Invalid email address"
+              },
+              {
+                "field": "customerInfo.country",
+                "message": "Attribute required"
+              },
+              {
+                "field": "customerInfo.country",
+                "message": "Invalid postal code"
+              },
+              {
+                "field": "customerInfo.zipcode",
+                "message": "Invalid postal code"
+              },
+              {
+                "field": "paymentInfo.creditCardPaymentInfo",
+                "message": "Attribute required"
+              },
+              {
+                "field": "paymentInfo.creditCardPaymentInfo.cardNum",
+                "message": "Attribute required"
+              },
+              {
+                "field": "paymentInfo.creditCardPaymentInfo.cardNum",
+                "message": "Invalid credit card number"
+              },
+              {
+                "field": "paymentInfo.creditCardPaymentInfo.expMonth",
+                "message": "Attribute required"
+              },
+              {
+                "field": "paymentInfo.creditCardPaymentInfo.expMonth",
+                "message": "Problem with the attribute values"
+              },
+              {
+                "field": "paymentInfo.creditCardPaymentInfo.expYear",
+                "message": "Attribute required"
+              },
+              {
+                "field": "paymentInfo.creditCardPaymentInfo.expYear",
+                "message": "Problem with the attribute values"
+              },
+              {
+                "field": "paymentInfo.creditCardPaymentInfo.expYear",
+                "message": "Invalid expiration year"
+              },
+              {
+                "field": "paymentInfo.creditCardPaymentInfo.nameOnCard",
+                "message": "Attribute required"
+              },
+              {
+                "field": "paymentInfo.creditCardPaymentInfo.nameOnCard",
+                "message": "Problem with the attribute values"
+              },
+              {
+                "field": "paymentInfo.creditCardPaymentInfo.cvv2",
+                "message": "Attribute required"
+              },
+              {
+                "field": "paymentInfo.creditCardPaymentInfo.cvv2",
+                "message": "Problem with the attribute values"
+              }
+            ],
+            "generalMessage": "Validation failed!",
+            "errorCode": 200000,
+            "timestamp": "2024-12-31T07:37:34.748Z"
+          }
+                Customer and Payment information required:
+                  description: Returned when either `customerInfo` or `paymentInfo` fields are not provided and `subscriptionId` field is `0`.
+                  value:
+                    {
+                      "id": "a90a6a04-da1a-4b58-a78d-f55e1bc09efd",
+                      "url": "/payment-tokens/merchant-only-verify-3ds",
+                      "errors": [
+                        {
+                          "field": null,
+                          "message": "Customer and Payment Information required for zero Subscription ID"
+                        }
+                      ],
+                      "generalMessage": "Validation failed!",
+                      "errorCode": 200000,
+                      "timestamp": "2024-12-31T07:37:34.748Z"
+                    }
+                Invalid subscription ID:
+                  description: Returned when subscription with the provided `subscriptionId` is not found, inactive, not properly formated or does not belong to the provided merchant.
+                  value:
+                    {
+                      "id": "62432dd8-97d9-400a-8da8-4a5c1951f935",
+                      "url": "/payment-tokens/merchant-only-verify-3ds",
+                      "errors": [
+                        {
+                          "field": "subscriptionId",
+                          "message": "Invalid Subscription ID"
+                        }
+                      ],
+                      "generalMessage": "Validation failed!",
+                      "errorCode": 200000,
+                      "timestamp": "2025-01-02T07:27:45.734Z"
+                    }
+                Unsupported characters:
+                  description: Returned when provided customer first/last name, address and/or name on card contain invalid characters (only ASCII character set is allowed).
+                  value:
+                    {
+                      "id": "9343a797-bcb2-4f27-bb8d-931b5e57cb3c",
+                      "url": "/payment-tokens/merchant-only-verify-3ds",
+                      "errors": [
+                        {
+                          "field": null,
+                          "message": "Unsupported characters"
+                        }
+                      ],
+                      "generalMessage": "Validation failed!",
+                      "errorCode": 200000,
+                      "timestamp": "2025-01-12T07:27:45.734Z"
+                    }
+
+        '401':
+          description: Unauthorized. Returned when the caller is not authorized to perform the requested action. This response does not have a response body.
+        '403':
+          description: Forbidden. Returned when the caller does not have adequate permissions to access the requested resource.
+          content:
+            application/vnd.com.cwie.error.v1+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Forbidden:
+                 value:
+                  {
+                    "id": "89e8a24a-e1b3-4366-a968-20d21b1023f3",
+                    "url": "/payment-tokens/merchant-only-verify-3ds",
+                    "errors": [],
+                    "generalMessage": "Forbidden",
+                    "errorCode": 100020,
+                    "timestamp": "2024-12-30T09:10:16.615Z"
+                  }
+        '404':
+          description: Not Found. Returned when the requested resource or any of the required related resources is not found.
+          content:
+            application/vnd.com.cwie.error.v1+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Not Found:
+                  value:
+                    {
+                      "id": "98efcc51-51aa-4989-bd35-88041489c8d1",
+                      "url": "/payment-tokens/merchant-only-verify-3ds",
+                      "errors": [],
+                      "generalMessage": "Not Found",
+                      "errorCode": 130000,
+                      "timestamp": "2024-12-27T15:06:01.190Z"
+                    }
+
+        '405':
+          description: Method Not Allowed. Returned when the requested method is not allowed for the requested resource.
+          content:
+            application/vnd.com.cwie.error.v1+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Method Not Allowed:
+                  value:
+                    {
+                      "id": "399f8978-e8f0-48f9-bedc-e1725534cc6b",
+                      "url": "/payment-tokens/merchant-only-verify-3ds",
+                      "errors": [],
+                      "generalMessage": "Method Not Allowed",
+                      "errorCode": 130000,
+                      "timestamp": "2024-12-30T09:21:25.724Z"
+                    }
+        '406':
+          description: Not Acceptable. Returned when the requested media type is not supported.
+          content:
+            application/vnd.com.cwie.error.v1+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Not Acceptable:
+                  value:
+                    {
+                      "id": "4dfa73a9-9fd0-4995-9e00-4984464c3f91",
+                      "url": "/payment-tokens/merchant-only-verify-3ds",
+                      "errors": [],
+                      "generalMessage": "Not Acceptable",
+                      "errorCode": 100015,
+                      "timestamp": "2024-12-30T09:45:11.962Z"
+                    }
+        '415':
+          description: Unsupported Media Type. Returned when the requested media type is not supported.
+          content:
+            application/vnd.com.cwie.error.v1+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Unsupported Media Type:
+                  value:
+                    {
+                      "id": "ac10e72b-0124-481c-a7f8-44875352cf87",
+                      "url": "/payment-tokens/merchant-only-verify-3ds",
+                      "errors": [],
+                      "generalMessage": "Unsupported Media Type",
+                      "errorCode": 100004,
+                      "timestamp": "2024-12-30T19:39:18.861Z"
+                    }
+        '500':
+          description: Internal Server Error. Returned when the server encountered an unexpected condition that prevented it from fulfilling the request.
+          content:
+            application/vnd.com.cwie.error.v1+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Server Error:
+                  value:
+                    {
+                      "id": "f82d6175-c992-4342-8271-7a181d031415",
+                      "url": "/payment-tokens/merchant-only-verify-3ds",
+                      "errors": [],
+                      "generalMessage": "An error occurred, please try again later.",
+                      "errorCode": 100100,
+                      "timestamp": "2024-12-30T13:50:51.218Z"
+                    }
+
+components:
+  schemas:
+    PaymentToken:
+      description: These response parameters are received when a payment token is successfully created.
+      type: object
+      properties:
+        paymentTokenId:
+          description: Complex representation of the Payment Token Id
+          type: string
+        programParticipationId:
+          description: Program connected to the Payment Token
+          type: integer
+          format: int32
+          nullable: true
+        originalPaymentTokenId:
+          description: Reference to a previous Token Id
+          type: string
+          nullable: true
+        clientAccnum:
+          description: Merchant account number
+          type: integer
+          format: int32
+        clientSubacc:
+          description: Merchant subaccount number
+          type: integer
+          format: int32
+        createdDatetime:
+          description: Date Time of creation of the Payment Token
+          type: string
+        timeToLive:
+          description: Time for the token to exist
+          type: integer
+          format: int64
+        validNumberOfUse:
+          description: Total number of times the Payment Token can be used for purchases
+          type: integer
+          format: int64
+        paymentInfoId:
+          description: Information associated with the payment
+          type: string
+          nullable: true
+        subscriptionId:
+          description: Identification of the subscription associated with the transaction
+          type: integer
+          format: int64
+        cvv2Response:
+          description: The result of CVV2 verification
+          type: string
+          nullable: true
+          enum:
+            - "M"  # CVV2 Match
+            - "N"  # CVV2 No Match
+            - "P"  # CVV2 Not Processed
+            - "S"  # CVV2 Service Not Allowed
+            - "U"  # CVV2 Unreadable
+          example: "M"
+        avsResponse:
+          description: The result of AVS verification.
+          type: string
+          nullable: true
+          enum:
+            - "A"  # Address matches, ZIP does not
+            - "B"  # Address and ZIP match (both are blank)
+            - "C"  # Address matches, ZIP does not
+            - "D"  # Address matches, ZIP does not
+            - "E"  # AVS error
+            - "F"  # Address and ZIP match
+            - "G"  # Address matches, ZIP does not
+            - "H"  # Address and ZIP match
+            - "I"  # AVS unavailable
+            - "J"  # Address matches, ZIP does not
+            - "K"  # Address matches, ZIP does not
+            - "L"  # Address matches, ZIP does not
+            - "M"  # Address and ZIP match
+            - "N"  # Address and ZIP do not match
+            - "O"  # Address and ZIP match (both are blank)
+            - "P"  # Address and ZIP match (both are blank)
+            - "Q"  # Address and ZIP match (both are blank)
+            - "R"  # Address matches, ZIP does not
+            - "S"  # Address matches, ZIP does not
+            - "T"  # Address matches, ZIP does not
+            - "U"  # Address matches, ZIP does not
+            - "V"  # Address matches, ZIP does not
+            - "W"  # Address matches, ZIP does not
+            - "X"  # Address and ZIP match
+            - "Y"  # Address and ZIP match
+            - "Z"  # Address and ZIP match
+          example: "H"
+    PaymentTokenV2:
+      description: These response parameters are received when a payment token is successfully created.
+      type: object
+      properties:
+        paymentTokenId:
+          description: Complex representation of the Payment Token Id
+          type: string
+        programParticipationId:
+          description: Program connected to the Payment Token
+          type: integer
+          format: int32
+          nullable: true
+        originalPaymentTokenId:
+          description: Reference to a previous Token Id
+          type: string
+          nullable: true
+        clientAccnum:
+          description: Merchant account number
+          type: integer
+          format: int32
+        clientSubacc:
+          description: Merchant subaccount number
+          type: integer
+          format: int32
+        createdDatetime:
+          description: Date Time of creation of the Payment Token
+          type: string
+        timeToLive:
+          description: Time for the token to exist
+          type: integer
+          format: int64
+        validNumberOfUse:
+          description: Total number of times the Payment Token can be used for purchases
+          type: integer
+          format: int64
+        paymentInfoId:
+          description: Information associated with the payment
+          type: string
+          nullable: true
+        subscriptionId:
+          description: Identification of the subscription associated with the transaction
+          type: string
+        cvv2Response:
+          description: The result of CVV2 verification
+          type: string
+          nullable: true
+          enum:
+            - "M"  # CVV2 Match
+            - "N"  # CVV2 No Match
+            - "P"  # CVV2 Not Processed
+            - "S"  # CVV2 Service Not Allowed
+            - "U"  # CVV2 Unreadable
+          example: "M"
+        avsResponse:
+          description: The result of AVS verification.
+          type: string
+          nullable: true
+          enum:
+            - "A"  # Address matches, ZIP does not
+            - "B"  # Address and ZIP match (both are blank)
+            - "C"  # Address matches, ZIP does not
+            - "D"  # Address matches, ZIP does not
+            - "E"  # AVS error
+            - "F"  # Address and ZIP match
+            - "G"  # Address matches, ZIP does not
+            - "H"  # Address and ZIP match
+            - "I"  # AVS unavailable
+            - "J"  # Address matches, ZIP does not
+            - "K"  # Address matches, ZIP does not
+            - "L"  # Address matches, ZIP does not
+            - "M"  # Address and ZIP match
+            - "N"  # Address and ZIP do not match
+            - "O"  # Address and ZIP match (both are blank)
+            - "P"  # Address and ZIP match (both are blank)
+            - "Q"  # Address and ZIP match (both are blank)
+            - "R"  # Address matches, ZIP does not
+            - "S"  # Address matches, ZIP does not
+            - "T"  # Address matches, ZIP does not
+            - "U"  # Address matches, ZIP does not
+            - "V"  # Address matches, ZIP does not
+            - "W"  # Address matches, ZIP does not
+            - "X"  # Address and ZIP match
+            - "Y"  # Address and ZIP match
+            - "Z"  # Address and ZIP match
+          example: "H"
+    CreditCardWithCvvPaymentInfo:
+      description: Elements of the `paymentInfo` array with CVV2 authentication.
+      type: object
+      properties:
+        cardNum:
+          description: Valid credit card number checked against the Luhn algorithm
+          type: string
+        expMonth:
+          description: Card expiration month in `mm` format
+          type: string
+          pattern: ^(0[1-9]|1[012])$
+        expYear:
+          description: Card expiration year in `yyyy` format
+          type: string
+          pattern: \d{4}
+        nameOnCard:
+          description: Name as it appears on card
+          type: string
+          pattern: ^[\p{L} .'-]+$
+        cvv2:
+          description: CVV2 code on the card
+          type: string
+          pattern: ^(\d{3}|\d{4})$
+      required:
+        - cardNum
+        - expMonth
+        - expYear
+        - nameOnCard
+        - cvv2
+    PaymentInfoWithCvv:
+      description: Elements of the `creditCardPaymentInfo` array with CVV2 authentication.
+      type: object
+      properties:
+        creditCardPaymentInfo:
+          description: Credit Card Payment Information
+          allOf:
+            - $ref: '#/components/schemas/CreditCardWithCvvPaymentInfo'
+      required:
+        - creditCardPaymentInfo
+    ListOfSupportedCreditCards:
+      description: List Of Supported Credit Cards
+      type: array
+      items:
+        type: string
+    CreditCardPaymentInfo:
+      description: Elements of the `paymentInfo` array.
+      type: object
+      properties:
+        cardNum:
+          description: Card number
+          type: string
+        expMonth:
+          description: Card expiration month in mm format
+          type: string
+        expYear:
+          description: Card expiration year in yyyy format
+          type: string
+        nameOnCard:
+          description: Name as it appears on card
+          type: string
+      required:
+        - cardNum
+        - expMonth
+        - expYear
+        - nameOnCard
+    CustomerInfo:
+      description: Elements of the `customerInfo` array.
+      type: object
+      properties:
+        address1:
+          description: Customer's address
+          type: string
+        address2:
+          description: Customer's address (additional info)
+          type: string
+        browserHttpAccept:
+          description: Media type(s) that is(/are) acceptable for the response
+          type: string
+        browserHttpAcceptEncoding:
+          description: List of acceptable encodings
+          type: string
+        browserHttpAcceptLanguage:
+          description: List of acceptable human languages for response
+          type: string
+        browserHttpUserAgent:
+          description: The user agent string of the user agent
+          type: string
+        city:
+          description: Customer's city
+          type: string
+        country:
+          description: Customer's country
+          type: string
+        customerFname:
+          description: Customer's first name
+          type: string
+        customerLname:
+          description: Customer's last name
+          type: string
+        email:
+          description: Customer's email address
+          type: string
+        ipAddress:
+          description: Customer's IP address
+          type: string
+        phoneNumber:
+          description: Customer's phone number
+          type: string
+        state:
+          description: Customer's state
+          type: string
+        zipcode:
+          description: Customer's zip code
+          type: string
+      required:
+        - country
+        - customerFname
+        - customerLname
+        - email
+        - zipcode
+        - country
+    PaymentTokenVerify:
+      description: |
+        These response parameters are received when a payment token is successfully created, including <a href="https://ccbill.com/doc/avs-and-cvv2-responses" target="_blank">AVS and CVV2 authentication results</a>.
+      type: object
+      properties:
+        paymentTokenId:
+          description: "Complex representation of Payment Token Id"
+          type: string
+        programParticipationId:
+          description: "Program connected to the Payment Token"
+          type: integer
+        originalPaymentTokenId:
+          description: "Reference to a previous Token Id"
+          type: string
+        clientAccnum:
+          description: "Merchant account number"
+          type: integer
+        clientSubacc:
+          description: "Merchant subaccount number"
+          type: integer
+        createdDatetime:
+          description: "Date Time of creation of the Payment Token"
+          type: string
+          format: date-time
+        timeToLive:
+          description: "Time for the token to exist"
+          type: integer
+        validNumberOfUse:
+          description: "Total number of times the Payment Token can be used for purchases"
+          type: integer
+        subscriptionId:
+          description: "Identification of the subscription associated with the transaction"
+          type: integer
+        paymentInfoId:
+          description: "Information associated with the payment"
+          type: string
+        cvv2Response:
+          description: |
+            The result of CVV2 verification.
+          type: string
+          enum:
+            - "M"  # CVV2 Match
+            - "N"  # CVV2 No Match
+            - "P"  # CVV2 Not Processed
+            - "S"  # CVV2 Service Not Allowed
+            - "U"  # CVV2 Unreadable
+        avsResponse:
+          description: |
+             The result of AVS verification.
+          type: string
+          enum:
+            - "A"  # Address matches, ZIP does not
+            - "B"  # Address and ZIP match (both are blank)
+            - "C"  # Address matches, ZIP does not
+            - "D"  # Address matches, ZIP does not
+            - "E"  # AVS error
+            - "F"  # Address and ZIP match
+            - "G"  # Address matches, ZIP does not
+            - "H"  # Address and ZIP match
+            - "I"  # AVS unavailable
+            - "J"  # Address matches, ZIP does not
+            - "K"  # Address matches, ZIP does not
+            - "L"  # Address matches, ZIP does not
+            - "M"  # Address and ZIP match
+            - "N"  # Address and ZIP do not match
+            - "O"  # Address and ZIP match (both are blank)
+            - "P"  # Address and ZIP match (both are blank)
+            - "Q"  # Address and ZIP match (both are blank)
+            - "R"  # Address matches, ZIP does not
+            - "S"  # Address matches, ZIP does not
+            - "T"  # Address matches, ZIP does not
+            - "U"  # Address matches, ZIP does not
+            - "V"  # Address matches, ZIP does not
+            - "W"  # Address matches, ZIP does not
+            - "X"  # Address and ZIP match
+            - "Y"  # Address and ZIP match
+            - "Z"  # Address and ZIP match
+      required:
+        - paymentTokenId
+        - programParticipationId
+        - clientAccnum
+        - clientSubacc
+        - createdDatetime
+        - timeToLive
+        - validNumberOfUse
+        - subscriptionId
+        - cvv2Response
+        - avsResponse
+
+    PaymentTokenVerifyV2:
+      description: |
+        These response parameters are received when a payment token is successfully created, including <a href="https://ccbill.com/doc/avs-and-cvv2-responses" target="_blank">AVS and CVV2 authentication results</a>.
+      type: object
+      properties:
+        paymentTokenId:
+          description: "Complex representation of Payment Token Id"
+          type: string
+        programParticipationId:
+          description: "Program connected to the Payment Token"
+          type: integer
+        originalPaymentTokenId:
+          description: "Reference to a previous Token Id"
+          type: string
+        clientAccnum:
+          description: "Merchant account number"
+          type: integer
+        clientSubacc:
+          description: "Merchant subaccount number"
+          type: integer
+        createdDatetime:
+          description: "Date Time of creation of the Payment Token"
+          type: string
+          format: date-time
+        timeToLive:
+          description: "Time for the token to exist"
+          type: integer
+        validNumberOfUse:
+          description: "Total number of times the Payment Token can be used for purchases"
+          type: integer
+        subscriptionId:
+          description: "Identification of the subscription associated with the transaction"
+          type: string
+        paymentInfoId:
+          description: "Information associated with the payment"
+          type: string
+        cvv2Response:
+          description: |
+            The result of CVV2 verification. 
+          type: string
+          enum:
+            - "M"  # CVV2 Match
+            - "N"  # CVV2 No Match
+            - "P"  # CVV2 Not Processed
+            - "S"  # CVV2 Service Not Allowed
+            - "U"  # CVV2 Unreadable
+        avsResponse:
+          description: |
+            The result of AVS verification. 
+          type: string
+          enum:
+            - "A"  # Address matches, ZIP does not
+            - "B"  # Address and ZIP match (both are blank)
+            - "C"  # Address matches, ZIP does not
+            - "D"  # Address matches, ZIP does not
+            - "E"  # AVS error
+            - "F"  # Address and ZIP match
+            - "G"  # Address matches, ZIP does not
+            - "H"  # Address and ZIP match
+            - "I"  # AVS unavailable
+            - "J"  # Address matches, ZIP does not
+            - "K"  # Address matches, ZIP does not
+            - "L"  # Address matches, ZIP does not
+            - "M"  # Address and ZIP match
+            - "N"  # Address and ZIP do not match
+            - "O"  # Address and ZIP match (both are blank)
+            - "P"  # Address and ZIP match (both are blank)
+            - "Q"  # Address and ZIP match (both are blank)
+            - "R"  # Address matches, ZIP does not
+            - "S"  # Address matches, ZIP does not
+            - "T"  # Address matches, ZIP does not
+            - "U"  # Address matches, ZIP does not
+            - "V"  # Address matches, ZIP does not
+            - "W"  # Address matches, ZIP does not
+            - "X"  # Address and ZIP match
+            - "Y"  # Address and ZIP match
+            - "Z"  # Address and ZIP match
+      required:
+        - paymentTokenId
+        - programParticipationId
+        - clientAccnum
+        - clientSubacc
+        - createdDatetime
+        - timeToLive
+        - validNumberOfUse
+        - subscriptionId
+        - cvv2Response
+        - avsResponse
+    PaymentTokenMerchantOnlyVerify3dsParams:
+      description: |-
+        Parameters for creating a payment token with performing verification against the provided credit card details using CVV and SCA results
+      type: object
+      properties:
+        clientAccnum:
+          description: Merchant account number
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 999999
+        clientSubacc:
+          description: Merchant subaccount number
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 9999
+        customerInfo:
+          description: Holds all the information related to the customer performing the transaction (name, email, address, browser info etc.).
+          allOf:
+            - $ref: '#/components/schemas/CustomerInfo'
+        paymentInfo:
+          description: Payment Information
+          allOf:
+            - $ref: '#/components/schemas/PaymentInfoWithCvv'
+        subscriptionId:
+          description: |-
+            Identification of the subscription associated with the transaction. 
+            If the value is `0`, the `customerInfo` and `paymentInfo` fields are required.
+            When the subscription ID of an existing transaction is provided, stored COF will be used to create the Payment Token.
+          type: integer
+          format: int64
+        timeToLive:
+          description: Time for the token to exist
+          type: integer
+          format: int64
+        validNumberOfUse:
+          description: Total number of times the Payment Token can be used for purchases
+          type: integer
+          format: int64
+        threeds:
+          description: Results of the Strong Customer Authentication returned by the 3-D Secure vendor
+          type: object
+          properties:
+            threedsCavv:
+              description: The Cardholder Authentication Verification Value (CAVV) is a value that is produced by the ACS using data that is specific to the individual transaction.
+              type: string
+              nullable: true
+              maxLength: 1024
+              example: null
+            threedsCavvAlgorithm:
+              description: The algorithm used to produce the CAVV.
+              type: string
+              nullable: true
+              maxLength: 28
+              example: null
+            threedsEci:
+              description: The Electronic Commerce Indicator (ECI) is a value that indicates the outcome of the 3-D Secure authentication.
+              type: string
+              nullable: true
+              maxLength: 2
+              example: 5
+            threedsStatus:
+              description: The status of the 3-D Secure authentication.
+              type: string
+              nullable: true
+              maxLength: 1
+              example: Y
+            threedsSuccess:
+              description: The success of the 3-D Secure authentication.
+              type: boolean
+              nullable: true
+              example: true
+            threedsVersion:
+              description: The version of the 3-D Secure authentication.
+              type: string
+              nullable: true
+              maxLength: 20
+              example: 2.2.0
+            threedsXid:
+              description: The transaction identifier assigned by the 3-D Secure vendor.
+              type: string
+              nullable: true
+              maxLength: 50
+              example: null  
+            threedsAmount:
+              description: The amount of the transaction.
+              type: number
+              format: double
+              example: 1
+            threedsClientTransactionId:
+              description: The unique identifier for the transaction.
+              type: string
+              nullable: true
+              maxLength: 36
+              example: id-adaxjj29wqt
+            threedsCurrency:
+              description: The currency of the transaction used during the SCA flow.
+              type: string
+              nullable: true
+              maxLength: 3
+              example: 840
+            threedsSdkTransId:
+              description: The unique SDK identifier for the transaction as part of SCA results.
+              type: string
+              nullable: true
+              maxLength: 36
+              example: a6f00215-6a38-4f8a-bc5d-2ecd2e01c870
+            threedsAscTransId:
+              description: The Access Control Server Transaction unique identifier for the transaction as part of SCA results.
+              type: string
+              maxLength: 36
+              nullable: true
+              example: 1a6f00215-6a38-4f8a-bc5d-2ecd2e01c870
+            threedsDsTransId:
+              description: The Directory Server Transaction unique identifier for the transaction as part of SCA results.
+              type: string
+              maxLength: 36
+              nullable: true
+              example: 7e3e3136-70dd-4f15-8f71-ef58c5c24f74
+            threedsAuthenticationType:
+              description: The type of authentication used during the SCA flow.
+              type: string
+              nullable: true
+              maxLength: 36
+              example: 1
+            threedsAuthenticationValue:
+              description: The value of the authentication used as part of the SCA results.
+              type: string
+              nullable: true
+              maxLength: 36
+              example: AHUIg/TRI/Vo6qaaMN/eID4McaI=
+            threedsCardToken:
+              description: The 3DS card token used during the SCA flow. Provide `null` as this field will be removed in the next API version.
+              type: string
+              nullable: true
+              maxLength: 16
+              example: null
+            threedsError:
+              description: The error message returned in case the SCA flow fails.
+              type: string
+              nullable: true
+              maxLength: 256
+              example: null
+            threedsErrorDetail:
+              description: The detailed error message returned in case the SCA flow fails.
+              type: string
+              nullable: true
+              example: null
+            threedsErrorCode:
+              description: The error code returned in case the SCA flow fails.
+              type: string
+              nullable: true
+              example: null
+            threedsResponse:
+              description: The full response 
+              type: string
+              nullable: true
+              example: null
+      required:
+        - clientAccnum
+        - clientSubacc
+        - subscriptionId
+        - threeds
+    ValidationError:
+      type: object
+      properties:
+        field:
+          description: Field in error
+          type: string
+        message:
+          description: User friendly message
+          type: string
+    Error:
+      type: object
+      properties:
+        id:
+          description: The unique ID used to locate an error in the logs.
+          type: string
+          format: uuid
+        errorCode:
+          description: Product defined error code.
+          type: integer
+          format: int32
+        generalMessage:
+          description: The general user message.
+          type: string
+          nullable: true
+        url:
+          description: The requested relative URL that has caused this error response.
+          type: string
+          format: uri-reference
+        timestamp:
+          description: The timestamp of the request that resulted in this error response.
+          type: string
+          format: date-time
+        errors:
+          description: List of validation errors, which resulted in this error response.
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+  parameters:
+    trait_versioned_Accept:
+      name: '200'
+      in: header
+      description: API version
+      schema:
+        type: string
+  requestBodies: {}
+  headers: {}
+  links: {}
+  callbacks: {}
