@@ -736,7 +736,7 @@ components:
         subscriptionId:
           description: Identification of the subscription associated with the transaction
           type: string
-                cvv2Response:
+        cvv2Response:
           description: The result of CVV2 verification
           type: string
           nullable: true
