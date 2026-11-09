@@ -401,164 +401,100 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Bad Request:
-                  description: |- 
+                  description: |-
                     Returned when one of `requestBody`'s fields is not valid.<br>
                     <em>Note</em>: For completeness the `errors` array in this example holds errors for all existing validated fields, but any subset of these can be returned.
                   value:
-                    {
-                    "id": "a90a6a04-da1a-4b58-a78d-f55e1bc09efd",
-                    "url": "/payment-tokens/merchant-only-verify-3ds",
-                    "errors": [
-              {
-                "field": "clientAccnum",
-                "message": "Attribute required"
-              },
-              {
-                "field": "clientAccnum",
-                "message": "Problem with attribute size"
-              },
-              {
-                "field": "clientSubacc",
-                "message": "Attribute required"
-              },
-              {
-                "field": "clientSubacc",
-                "message": "Problem with attribute size"
-              },
-              {
-                "field": "subscriptionId",
-                "message": "Attribute required"
-              },
-              {
-                "field": "customerInfo.customerFname",
-                "message": "Attribute required"
-              },
-              {
-                "field": "customerInfo.customerLname",
-                "message": "Attribute required"
-              },
-              {
-                "field": "customerInfo.email",
-                "message": "Attribute required"
-              },
-              {
-                "field": "customerInfo.email",
-                "message": "Invalid email address"
-              },
-              {
-                "field": "customerInfo.country",
-                "message": "Attribute required"
-              },
-              {
-                "field": "customerInfo.country",
-                "message": "Invalid postal code"
-              },
-              {
-                "field": "customerInfo.zipcode",
-                "message": "Invalid postal code"
-              },
-              {
-                "field": "paymentInfo.creditCardPaymentInfo",
-                "message": "Attribute required"
-              },
-              {
-                "field": "paymentInfo.creditCardPaymentInfo.cardNum",
-                "message": "Attribute required"
-              },
-              {
-                "field": "paymentInfo.creditCardPaymentInfo.cardNum",
-                "message": "Invalid credit card number"
-              },
-              {
-                "field": "paymentInfo.creditCardPaymentInfo.expMonth",
-                "message": "Attribute required"
-              },
-              {
-                "field": "paymentInfo.creditCardPaymentInfo.expMonth",
-                "message": "Problem with the attribute values"
-              },
-              {
-                "field": "paymentInfo.creditCardPaymentInfo.expYear",
-                "message": "Attribute required"
-              },
-              {
-                "field": "paymentInfo.creditCardPaymentInfo.expYear",
-                "message": "Problem with the attribute values"
-              },
-              {
-                "field": "paymentInfo.creditCardPaymentInfo.expYear",
-                "message": "Invalid expiration year"
-              },
-              {
-                "field": "paymentInfo.creditCardPaymentInfo.nameOnCard",
-                "message": "Attribute required"
-              },
-              {
-                "field": "paymentInfo.creditCardPaymentInfo.nameOnCard",
-                "message": "Problem with the attribute values"
-              },
-              {
-                "field": "paymentInfo.creditCardPaymentInfo.cvv2",
-                "message": "Attribute required"
-              },
-              {
-                "field": "paymentInfo.creditCardPaymentInfo.cvv2",
-                "message": "Problem with the attribute values"
-              }
-            ],
-            "generalMessage": "Validation failed!",
-            "errorCode": 200000,
-            "timestamp": "2024-12-31T07:37:34.748Z"
-          }
+                    id: a90a6a04-da1a-4b58-a78d-f55e1bc09efd
+                    url: /payment-tokens/merchant-only-verify-3ds
+                    errors:
+                      - field: clientAccnum
+                        message: Attribute required
+                      - field: clientAccnum
+                        message: Problem with attribute size
+                      - field: clientSubacc
+                        message: Attribute required
+                      - field: clientSubacc
+                        message: Problem with attribute size
+                      - field: subscriptionId
+                        message: Attribute required
+                      - field: customerInfo.customerFname
+                        message: Attribute required
+                      - field: customerInfo.customerLname
+                        message: Attribute required
+                      - field: customerInfo.email
+                        message: Attribute required
+                      - field: customerInfo.email
+                        message: Invalid email address
+                      - field: customerInfo.country
+                        message: Attribute required
+                      - field: customerInfo.country
+                        message: Invalid postal code
+                      - field: customerInfo.zipcode
+                        message: Invalid postal code
+                      - field: paymentInfo.creditCardPaymentInfo
+                        message: Attribute required
+                      - field: paymentInfo.creditCardPaymentInfo.cardNum
+                        message: Attribute required
+                      - field: paymentInfo.creditCardPaymentInfo.cardNum
+                        message: Invalid credit card number
+                      - field: paymentInfo.creditCardPaymentInfo.expMonth
+                        message: Attribute required
+                      - field: paymentInfo.creditCardPaymentInfo.expMonth
+                        message: Problem with the attribute values
+                      - field: paymentInfo.creditCardPaymentInfo.expYear
+                        message: Attribute required
+                      - field: paymentInfo.creditCardPaymentInfo.expYear
+                        message: Problem with the attribute values
+                      - field: paymentInfo.creditCardPaymentInfo.expYear
+                        message: Invalid expiration year
+                      - field: paymentInfo.creditCardPaymentInfo.nameOnCard
+                        message: Attribute required
+                      - field: paymentInfo.creditCardPaymentInfo.nameOnCard
+                        message: Problem with the attribute values
+                      - field: paymentInfo.creditCardPaymentInfo.cvv2
+                        message: Attribute required
+                      - field: paymentInfo.creditCardPaymentInfo.cvv2
+                        message: Problem with the attribute values
+                    generalMessage: Validation failed!
+                    errorCode: 200000
+                    timestamp: '2024-12-31T07:37:34.748Z'
+
                 Customer and Payment information required:
                   description: Returned when either `customerInfo` or `paymentInfo` fields are not provided and `subscriptionId` field is `0`.
                   value:
-                    {
-                      "id": "a90a6a04-da1a-4b58-a78d-f55e1bc09efd",
-                      "url": "/payment-tokens/merchant-only-verify-3ds",
-                      "errors": [
-                        {
-                          "field": null,
-                          "message": "Customer and Payment Information required for zero Subscription ID"
-                        }
-                      ],
-                      "generalMessage": "Validation failed!",
-                      "errorCode": 200000,
-                      "timestamp": "2024-12-31T07:37:34.748Z"
-                    }
+                    id: a90a6a04-da1a-4b58-a78d-f55e1bc09efd
+                    url: /payment-tokens/merchant-only-verify-3ds
+                    errors:
+                      - field: null
+                        message: Customer and Payment Information required for zero Subscription ID
+                    generalMessage: Validation failed!
+                    errorCode: 200000
+                    timestamp: '2024-12-31T07:37:34.748Z'
+
                 Invalid subscription ID:
                   description: Returned when subscription with the provided `subscriptionId` is not found, inactive, not properly formated or does not belong to the provided merchant.
                   value:
-                    {
-                      "id": "62432dd8-97d9-400a-8da8-4a5c1951f935",
-                      "url": "/payment-tokens/merchant-only-verify-3ds",
-                      "errors": [
-                        {
-                          "field": "subscriptionId",
-                          "message": "Invalid Subscription ID"
-                        }
-                      ],
-                      "generalMessage": "Validation failed!",
-                      "errorCode": 200000,
-                      "timestamp": "2025-01-02T07:27:45.734Z"
-                    }
+                    id: 62432dd8-97d9-400a-8da8-4a5c1951f935
+                    url: /payment-tokens/merchant-only-verify-3ds
+                    errors:
+                      - field: subscriptionId
+                        message: Invalid Subscription ID
+                    generalMessage: Validation failed!
+                    errorCode: 200000
+                    timestamp: '2025-01-02T07:27:45.734Z'
+
                 Unsupported characters:
                   description: Returned when provided customer first/last name, address and/or name on card contain invalid characters (only ASCII character set is allowed).
                   value:
-                    {
-                      "id": "9343a797-bcb2-4f27-bb8d-931b5e57cb3c",
-                      "url": "/payment-tokens/merchant-only-verify-3ds",
-                      "errors": [
-                        {
-                          "field": null,
-                          "message": "Unsupported characters"
-                        }
-                      ],
-                      "generalMessage": "Validation failed!",
-                      "errorCode": 200000,
-                      "timestamp": "2025-01-12T07:27:45.734Z"
-                    }
-
+                    id: 9343a797-bcb2-4f27-bb8d-931b5e57cb3c
+                    url: /payment-tokens/merchant-only-verify-3ds
+                    errors:
+                      - field: null
+                        message: Unsupported characters
+                    generalMessage: Validation failed!
+                    errorCode: 200000
+                    timestamp: '2025-01-12T07:27:45.734Z'
         '401':
           description: Unauthorized. Returned when the caller is not authorized to perform the requested action. This response does not have a response body.
         '403':
