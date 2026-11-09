@@ -459,42 +459,55 @@ paths:
                     generalMessage: Validation failed!
                     errorCode: 200000
                     timestamp: '2024-12-31T07:37:34.748Z'
-
                 Customer and Payment information required:
                   description: Returned when either `customerInfo` or `paymentInfo` fields are not provided and `subscriptionId` field is `0`.
                   value:
-                    id: a90a6a04-da1a-4b58-a78d-f55e1bc09efd
-                    url: /payment-tokens/merchant-only-verify-3ds
-                    errors:
-                      - field: null
-                        message: Customer and Payment Information required for zero Subscription ID
-                    generalMessage: Validation failed!
-                    errorCode: 200000
-                    timestamp: '2024-12-31T07:37:34.748Z'
-
+                    {
+                      "id": "a90a6a04-da1a-4b58-a78d-f55e1bc09efd",
+                      "url": "/payment-tokens/merchant-only-verify-3ds",
+                      "errors": [
+                        {
+                          "field": null,
+                          "message": "Customer and Payment Information required for zero Subscription ID"
+                        }
+                      ],
+                      "generalMessage": "Validation failed!",
+                      "errorCode": 200000,
+                      "timestamp": "2024-12-31T07:37:34.748Z"
+                    }
                 Invalid subscription ID:
                   description: Returned when subscription with the provided `subscriptionId` is not found, inactive, not properly formated or does not belong to the provided merchant.
                   value:
-                    id: 62432dd8-97d9-400a-8da8-4a5c1951f935
-                    url: /payment-tokens/merchant-only-verify-3ds
-                    errors:
-                      - field: subscriptionId
-                        message: Invalid Subscription ID
-                    generalMessage: Validation failed!
-                    errorCode: 200000
-                    timestamp: '2025-01-02T07:27:45.734Z'
-
+                    {
+                      "id": "62432dd8-97d9-400a-8da8-4a5c1951f935",
+                      "url": "/payment-tokens/merchant-only-verify-3ds",
+                      "errors": [
+                        {
+                          "field": "subscriptionId",
+                          "message": "Invalid Subscription ID"
+                        }
+                      ],
+                      "generalMessage": "Validation failed!",
+                      "errorCode": 200000,
+                      "timestamp": "2025-01-02T07:27:45.734Z"
+                    }
                 Unsupported characters:
                   description: Returned when provided customer first/last name, address and/or name on card contain invalid characters (only ASCII character set is allowed).
                   value:
-                    id: 9343a797-bcb2-4f27-bb8d-931b5e57cb3c
-                    url: /payment-tokens/merchant-only-verify-3ds
-                    errors:
-                      - field: null
-                        message: Unsupported characters
-                    generalMessage: Validation failed!
-                    errorCode: 200000
-                    timestamp: '2025-01-12T07:27:45.734Z'
+                    {
+                      "id": "9343a797-bcb2-4f27-bb8d-931b5e57cb3c",
+                      "url": "/payment-tokens/merchant-only-verify-3ds",
+                      "errors": [
+                        {
+                          "field": null,
+                          "message": "Unsupported characters"
+                        }
+                      ],
+                      "generalMessage": "Validation failed!",
+                      "errorCode": 200000,
+                      "timestamp": "2025-01-12T07:27:45.734Z"
+                    }
+
         '401':
           description: Unauthorized. Returned when the caller is not authorized to perform the requested action. This response does not have a response body.
         '403':
