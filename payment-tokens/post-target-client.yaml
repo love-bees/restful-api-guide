@@ -7,7 +7,6 @@ servers:
     description: Production Server
 tags:
   - name: "/payment-tokens"
-    description: Use the `/payment-tokens` resource to create a token that identifies a user in the system. The token can be passed on to the system in a transaction request, thus enabling you to bill a customer.
 security:
   - bearerAuth: []
 paths:
